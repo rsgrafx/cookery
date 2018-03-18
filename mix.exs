@@ -23,6 +23,7 @@ defmodule Cookery.MixProject do
   defp deps do
     [
       {:httpoison, "~> 1.0"},
+      {:poison, "~> 3.1"},
       {:bypass, "~> 0.8.0", only: :test}
     ]
   end
