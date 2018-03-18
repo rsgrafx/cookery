@@ -3,6 +3,14 @@ defmodule Cookery.Recipes.Search do
   This houses the functionality that searches for desired recipes with a food term.
   """
 
+  def find_with_term(food_item) do
+    %{body: body} = search_recipes(food_item)
+    case Poison.decode(body) do
+      {:ok, data} -> data
+      _ -> {:error, :badcall}
+    end
+  end
+
   def search_recipes(food_item) do
     food_item
     |> build_url()

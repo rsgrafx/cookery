@@ -8,16 +8,16 @@ defmodule CookeryTest do
       {:ok, bypass: bypass}
     end
 
-    test "should return a list of recipes" do
-      assert is_list(Cookery.Recipes.Search.find_with_term("peanuts"))
+    test "should return a list of recipes", %{bypass: bypass} do
+      call_bypass(bypass)
+      %{
+        "hits" => results
+       } = Cookery.Recipes.Search.find_with_term("peanuts")
+      assert is_list(results)
     end
 
     test "should make GET request to Edamam API with search term", %{bypass: bypass} do
-
-      Bypass.expect bypass, "GET", "/search", fn conn ->
-        Plug.Conn.resp(conn, 200, read_stub() )
-      end
-
+      call_bypass(bypass)
       response = Cookery.Recipes.Search.search_recipes("peanuts")
       assert is_map response
       assert response.body =~ "hits"
@@ -27,6 +27,12 @@ defmodule CookeryTest do
   def read_stub do
     {:ok, data} = File.read("test/fixtures/search_peanuts.json")
     data
+  end
+
+  def call_bypass(bypass) do
+    Bypass.expect bypass, "GET", "/search", fn conn ->
+      Plug.Conn.resp(conn, 200, read_stub() )
+    end
   end
 
 end
