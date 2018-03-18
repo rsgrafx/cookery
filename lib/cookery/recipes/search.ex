@@ -5,11 +5,34 @@ defmodule Cookery.Recipes.Search do
 
   def find_with_term(food_item) do
     %{body: body} = search_recipes(food_item)
-    case Poison.decode(body) do
-      {:ok, data} -> data
-      _ -> {:error, :badcall}
-    end
+    body
+    |> Poison.decode()
+    |> return_recipes()
   end
+
+  def return_recipes({:ok, %{"hits" => recipes}}) do
+    Enum.map(recipes, fn recipe ->
+      build_recipe(recipe)
+    end)
+  end
+
+  def return_recipes(_), do: {:error, "Could not parse internal data"}
+
+  defp build_recipe(%{"recipe" => %{
+    "label" => title,
+    "ingredients" => ingredient_list,
+    "uri" => uri
+    }
+  }) do
+    struct(Cookery.Recipe,
+    title: title,
+    ingredients: ingredient_list,
+    recipe_id: fetch_id(uri)
+    )
+  end
+
+  defp fetch_id("http://www.edamam.com/ontologies/edamam.owl#recipe_" <> uuid),
+    do: uuid
 
   def search_recipes(food_item) do
     food_item

@@ -10,10 +10,8 @@ defmodule CookeryTest do
 
     test "should return a list of recipes", %{bypass: bypass} do
       call_bypass(bypass)
-      %{
-        "hits" => results
-       } = Cookery.Recipes.Search.find_with_term("peanuts")
-      assert is_list(results)
+      assert [%Cookery.Recipe{}|_] =
+        Cookery.Recipes.Search.find_with_term("peanuts")
     end
 
     test "should make GET request to Edamam API with search term", %{bypass: bypass} do
