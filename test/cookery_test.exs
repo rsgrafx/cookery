@@ -22,6 +22,29 @@ defmodule CookeryTest do
     end
   end
 
+  describe "Save" do
+    test "should store recipe" do
+      user_id = "user-pre-gen-uuid-1"
+      assert is_map Cookery.Recipes.Save.store_recipe(user_id, recipe_data("recipe-pre-gen-uuid-1"))
+    end
+
+    test "stored data map structure" do
+      user_id = "user-pre-gen-uuid-1"
+      %{
+        "user-pre-gen-uuid-1" => %{
+          "recipes" => [%{recipe_id: "recipe-pre-gen-uuid-1"}|_]
+        }
+      } = Cookery.Recipes.Save.store_recipe(user_id, recipe_data("recipe-pre-gen-uuid-1"))
+    end
+  end
+
+  def recipe_data(recipe_id) do
+    struct(Cookery.Recipe,
+        title: "Chicken Chop Suey",
+        recipe_id: recipe_id
+    )
+  end
+
   def read_stub do
     {:ok, data} = File.read("test/fixtures/search_peanuts.json")
     data
