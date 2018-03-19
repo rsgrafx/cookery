@@ -7,7 +7,7 @@ This was how I approached this:
 ```
 	Application goals
 	|> Context Mapping 
-	|> Breaking down the app in Vertical Slices -> 
+	|> Breaking down the app in Vertical Slices
 	|> Writing "Black Box" tests
 
 ```
