@@ -14,7 +14,7 @@ defmodule Cookery.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger, :httpoison],
+      extra_applications: [:logger, :httpoison, :plug],
       mod: {Cookery.Application, []}
     ]
   end
@@ -22,6 +22,8 @@ defmodule Cookery.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:cowboy, "~> 1.0"},
+      {:plug, "~> 1.5.0"},
       {:httpoison, "~> 1.0"},
       {:poison, "~> 3.1"},
       {:bypass, "~> 0.8.0", only: :test}
