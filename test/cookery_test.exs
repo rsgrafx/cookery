@@ -25,16 +25,14 @@ defmodule CookeryTest do
   describe "Save" do
     test "should store recipe" do
       user_id = "user-pre-gen-uuid-1"
-      assert is_map Cookery.Recipes.Save.store_recipe(user_id, recipe_data("recipe-pre-gen-uuid-1"))
+      assert :ok = Cookery.Recipes.Save.store_recipe(user_id, recipe_data("recipe-pre-gen-uuid-1"))
     end
 
     test "stored data map structure" do
       user_id = "user-pre-gen-uuid-1"
-      %{
-        "user-pre-gen-uuid-1" => %{
-          "recipes" => [%{recipe_id: "recipe-pre-gen-uuid-1"}|_]
-        }
-      } = Cookery.Recipes.Save.store_recipe(user_id, recipe_data("recipe-pre-gen-uuid-1"))
+      Cookery.Recipes.Save.store_recipe(user_id, recipe_data("recipe-pre-gen-uuid-1"))
+      assert {:ok, :recipes, [%{recipe_id: "recipe-pre-gen-uuid-1"}|_] }
+        = Cookery.Recipes.Save.get_recipes user_id
     end
   end
 

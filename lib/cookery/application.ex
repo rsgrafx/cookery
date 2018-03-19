@@ -8,8 +8,7 @@ defmodule Cookery.Application do
   def start(_type, _args) do
     # List all child processes to be supervised
     children = [
-      # Starts a worker by calling: Cookery.Worker.start_link(arg)
-      # {Cookery.Worker, arg},
+      {Registry, [keys: :unique, name: :cookery_user_recipes]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
