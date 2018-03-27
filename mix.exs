@@ -26,6 +26,7 @@ defmodule Cookery.MixProject do
       {:plug, "~> 1.5.0"},
       {:httpoison, "~> 1.0"},
       {:poison, "~> 3.1"},
+      {:absinthe_plug, "~> 1.4.2"},
       {:bypass, "~> 0.8.0", only: :test}
     ]
   end

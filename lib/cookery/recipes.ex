@@ -9,7 +9,7 @@ defmodule Cookery.Recipes do
     end)
   end
 
-  defp build_recipe(%{"recipe" => %{
+  def build_recipe(%{"recipe" => %{
     "label" => title,
     "ingredients" => ingredient_list,
     "uri" => uri
@@ -17,9 +17,18 @@ defmodule Cookery.Recipes do
   }) do
     struct(Cookery.Recipe,
     title: title,
-    ingredients: ingredient_list,
+    ingredients: build_ingredients(ingredient_list),
     recipe_id: fetch_id(uri)
     )
+  end
+
+  def build_ingredients(list) do
+    Enum.map(list, &ingredient/1)
+  end
+  def build_ingredients(_), do: []
+
+  defp ingredient(%{"text" => text, "weight" => weight}) do
+    struct(Cookery.Ingredient, weight: weight, text: text)
   end
 
   defp fetch_id("http://www.edamam.com/ontologies/edamam.owl#recipe_" <> uuid),
