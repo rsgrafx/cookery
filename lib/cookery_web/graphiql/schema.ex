@@ -1,7 +1,6 @@
 defmodule CookeryWeb.GraphQL.Schema do
   use Absinthe.Schema
 
-  alias Cookery.Recipe
   alias CookeryWeb.Resolvers
 
   query do
