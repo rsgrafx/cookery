@@ -1,0 +1,4 @@
+alias Cookery.{
+  Recipes,
+  Edamam
+}
