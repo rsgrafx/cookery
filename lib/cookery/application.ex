@@ -7,7 +7,7 @@ defmodule Cookery.Application do
       {
         Plug.Adapters.Cowboy,
         scheme: :http,
-        plug: Cookery.Web.ApiRouter,
+        plug: CookeryWeb.ApiRouter,
         options: [port: port]
       },
       {
